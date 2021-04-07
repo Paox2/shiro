@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.RoleMapper">
+    <resultMap id="baseResultMap" type="com.example.demo.entity.Role">
+        <result column="username" property="username" javaType="String" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" javaType="Date" jdbcType="DATE"/>
+        <result column="roleName" property="roleName" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="baseColumnList">
+        username, roleName, createTime
+    </sql>
+
+    <select id="findRoleByUsername" resultMap="baseResultMap">
+        select
+        <include refid="baseColumnList"/>
+        from role where
+        username = #{username, jdbcType=VARCHAR}
+    </select>
+
+    <insert id="addRole" parameterType="com.example.demo.entity.Role">
+        insert into role
+        (<include refid="baseColumnList"/>)
+        values
+        (#{username, jdbcType=VARCHAR},#{roleName, jdbcType=VARCHAR},#{createTime, jdbcType=DATE})
+    </insert>
+
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.PermissionMapper">
+    <resultMap id="baseResultMap" type="com.example.demo.entity.User">
+        <result column="username" property="username" javaType="String" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" javaType="Date" jdbcType="DATE"/>
+        <result column="permissionName" property="permissionName" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="baseColumnList">
+        username, permissionName, createTime
+    </sql>
+
+    <select id="findPermissionByUsername" resultMap="baseResultMap">
+        select
+        <include refid="baseColumnList"/>
+        from permission where
+        username = #{username, jdbcType=VARCHAR}
+    </select>
+
+    <insert id="addPermission" parameterType="com.example.demo.entity.Permission">
+        insert into permission
+        (<include refid="baseColumnList"/>)
+        values
+        (#{username, jdbcType=VARCHAR},#{permissionName, jdbcType=VARCHAR},#{createTime, jdbcType=DATE})
+    </insert>
+
+</mapper>
